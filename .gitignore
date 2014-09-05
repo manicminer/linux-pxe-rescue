@@ -1,0 +1,6 @@
+.bootstrap.log
+.fakeroot*
+nest/
+root/
+*.cgz
+vmlinu*

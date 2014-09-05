@@ -1,0 +1,84 @@
+#!/bin/bash -e
+
+# debirf module: rescue
+# remove/install extra packages for disk rescue with apt-get
+#
+# The debirf scripts were written by
+# Jameson Rollins <jrollins@fifthhorseman.net>
+# and
+# Daniel Kahn Gillmor <dkg@fifthhorseman.net>.
+#
+# They are Copyright 2007-2011, and are all released under the GPL,
+# version 3 or later.
+
+# preseed.  helpful link:
+# http://blog.hjksolutions.com/articles/category/solutions
+debirf_exec debconf-set-selections <<EOF
+# Do you want to start MD arrays automatically?
+mdadm mdadm/autostart boolean false
+# MD arrays needed for the root filesystem:
+mdadm mdadm/initrdstart string none
+# Proceed with starting arrays not listed in mdadm.conf?
+mdadm mdadm/initrdstart_notinconf boolean false
+# Do you want to start the MD monitoring daemon?
+mdadm mdadm/start_daemon boolean false
+# Recipient for email notifications:
+mdadm mdadm/mail_to string root
+# Should mdadm run monthly redundancy checks of the MD arrays?
+mdadm mdadm/autocheck boolean false
+EOF
+
+# install packages
+debirf_exec apt-get --no-install-recommends --assume-yes install \
+ blktool \
+ bonnie++ \
+ cryptsetup \
+ gddrescue \
+ dosfstools \
+ e2tools \
+ e2undel \
+ eject \
+ fatresize \
+ foremost \
+ grub2 \
+ hdparm \
+ hfsplus \
+ hfsprogs \
+ hfsutils \
+ lsof \
+ lsscsi \
+ lvm2 \
+ mdadm \
+ mtd-utils \
+ parted \
+ pciutils \
+ recover \
+ screen \
+ scrub \
+ sdparm \
+ sg3-utils \
+ smartmontools \
+ testdisk \
+ testdisk \
+ tofrodos \
+ wipe \
+ wodim \
+
+
+# partimage is not available in amd64 on ubuntu at the moment -- we
+# should still be able to build a rescue image without it, if it comes
+# to that.
+
+debirf_exec apt-get --no-install-recommends --assume-yes install partimage || true
+
+# smp-utils was introduced only in wheezy, so we should be able to
+# build a rescue image without it (e.g. a squeeze system):
+
+debirf_exec apt-get --no-install-recommends --assume-yes install  smp-utils || true
+
+# let's try some different configurations of uboot-related tools, since the
+# package names seem to be in flux right now:
+
+debirf_exec apt-get --no-install-recommends --assume-yes install u-boot-tools || \
+    debirf_exec apt-get --no-install-recommends --assume-yes install uboot-envtools uboot-mkimage || \
+    true

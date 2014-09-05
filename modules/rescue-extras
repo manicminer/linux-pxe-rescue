@@ -1,0 +1,43 @@
+#!/bin/bash -e
+
+# debirf module: rescue
+# remove/install extra packages for rescue environment
+#
+
+# install packages
+debirf_exec apt-get --no-install-recommends --assume-yes install \
+ bash-completion \
+ bind9utils \
+ build-essential \
+ byobu \
+ dnsutils \
+ expect \
+ git \
+ htop \
+ iftop \
+ iotop \
+ iptraf \
+ libwww-perl \
+ mailutils \
+ mercurial \
+ mpack \
+ netcat \
+ netcat-traditional \
+ nmap \
+ ntp \
+ postfix \
+ python-pycurl \
+ screen \
+ ssl-cert \
+ subversion \
+ sudo \
+ sysstat \
+ tcptraceroute \
+ telnet \
+ tmux \
+ traceroute \
+ unzip \
+ uuid \
+ vim-nox \
+ zsh \
+ zsh-static
