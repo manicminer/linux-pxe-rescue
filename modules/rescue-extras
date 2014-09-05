@@ -18,14 +18,12 @@ debirf_exec apt-get --no-install-recommends --assume-yes install \
  iotop \
  iptraf \
  libwww-perl \
- mailutils \
  mercurial \
- mpack \
  netcat \
  netcat-traditional \
  nmap \
  ntp \
- postfix \
+ openssh-server \
  python-pycurl \
  screen \
  ssl-cert \
